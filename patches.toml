@@ -1,0 +1,18 @@
+# Ported from xenia-canary game-patches for Fuse (4541096E, default.xex hash 34AD8CB8A7A6A172)
+# https://github.com/xenia-canary/game-patches/blob/main/patches/4541096E%20-%20Fuse.patch.toml
+#
+# The recompiled code is static, so writing instructions into guest memory at
+# runtime has no effect. Each code patch is a [[midasm_hook]] instead: the
+# hook (src/fuse_hooks.cpp) runs before the instruction at `address`, checks
+# its fuse_* cvar (settings/hardware.toml) and returns true to take over the
+# instruction and jump to `jump_address_on_true`, or false to fall through to
+# the original code.
+#
+# Data patches (fuse_skip_intro, fuse_texture_streaming_fix) are still plain
+# memory writes in src/game_patches.cpp.
+
+[[midasm_hook]]
+address = 0x824D1028          # lfs f0,27480(r7) -> lfs f0,27448(r7)
+name = "FuseFps60Hook"
+registers = ["r7", "f0", "fpscr"]
+jump_address_on_true = 0x824D102C

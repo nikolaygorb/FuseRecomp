@@ -1,0 +1,88 @@
+# Manual function boundaries for addresses that the auto-analyzer didn't
+# discover as functions on its own (only reached via plain `b`, not `bl`,
+# so no call-graph edge pointed at them). Leaving the table empty lets
+# codegen find the natural boundaries itself (size=0 -> discover via region).
+#
+# Found via: rexglue codegen (UnresolvedCall errors during Validate phase).
+
+[functions]
+0x82EF5158 = {}
+0x82E749F8 = {}
+0x82E5D5D8 = {}
+0x829FA898 = {}
+0x82B52874 = {}
+0x82FCB190 = {}
+
+0x828470D8 = {}
+0x830FCE38 = {}
+0x830FCE48 = {}
+0x830FCE58 = {}
+0x830FCE68 = {}
+0x830FCE78 = {}
+0x830FCE88 = {}
+0x830FCE98 = {}
+0x830FCEA8 = {}
+0x830FCEB8 = {}
+0x830FCEC8 = {}
+0x830FCED8 = {}
+0x830FCEE8 = {}
+0x830FCEF8 = {}
+0x830FCF08 = {}
+0x830FCF18 = {}
+0x830FCF28 = {}
+0x830FCF38 = {}
+0x830FCF48 = {}
+0x830FCF58 = {}
+0x830FCF68 = {}
+0x830FCF78 = {}
+0x830FCF88 = {}
+0x830FCF98 = {}
+0x830FCFA8 = {}
+0x830FCFB8 = {}
+0x830FCFC8 = {}
+0x830FCFD8 = {}
+0x830FCFE8 = {}
+0x830FCFF8 = {}
+0x830FD008 = {}
+0x830FD018 = {}
+0x830FD028 = {}
+0x830FD038 = {}
+0x830FD048 = {}
+0x830FD058 = {}
+0x830FD068 = {}
+0x830FD078 = {}
+0x830FD088 = {}
+0x830FD098 = {}
+0x830FD0A8 = {}
+0x830FD0B8 = {}
+# reach loading intro
+0x82804658 = {}
+0x82ADB928 = {}
+0x82ADB940 = {}
+0x82AE0BB8 = {}
+0x82AE26B0 = {}
+0x82DE6BE0 = {}
+0x82DE6C00 = {}
+0x82ED3200 = {}
+0x82ED3128 = {}
+0x82ED31E8 = {}
+0x822F6200 = {}
+0x8227A3B0 = {}
+# reach loading
+0x82F6A4B8 = {}
+0x82347340 = {}
+0x82F45E10 = {}
+0x82E749E8 = {}
+0x82E8AE68 = {}
+# reach offline gameplay
+0x8273A6D8 = {}
+0x82DE6C20 = {}
+0x82A624A8 = {}
+0x83014470 = {}
+0x82DE6C50 = {}
+
+0x82D24350 = {}
+0x82D24390 = {}
+
+0x82D24378 = {}
+
