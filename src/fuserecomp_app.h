@@ -18,6 +18,7 @@
 #include "debug_tools.h"
 #include "game_cvars.h"
 #include "game_patches.h"
+#include "mouse/mouse_look.h"
 #include "utils.h"
 
 #ifdef REXGLUE_ENABLE_PERF_COUNTERS
@@ -106,6 +107,14 @@ public:
       return;
     }
     REXLOG_INFO("Mounted utility cache {} at {}", kMountPath, host_path.string());
+  }
+
+  void OnCreateDialogs(rex::ui::ImGuiDrawer *drawer) override
+  {
+    // Window exists from this point on. Native mouse look (fuse_mouse_look)
+    // only takes the mouse over while the camera hooks in
+    // src/mouse/mouse_look_hook.cpp run; see src/mouse/mouse_look.h.
+    fuse::mouse::MouseLook::Get().Attach(window(), drawer);
   }
 
   void OnShutdown() override

@@ -14,27 +14,27 @@ gpu_plugin = "xenos"
 graphics_backend = "any"
 vsync = true
 resolution_scale = 2
-present_effect = "fsr"
+present_effect = "bilinear"
 present_fsr_sharpness_reduction = 0.3
-present_dither = false
+present_dither = true
 swap_post_effect = "none"
 async_shader_compilation = true
 native_2x_msaa = false
-anisotropic_override = 0
-present_fsr_quality_mode = "auto"
-present_fsr_max_upsampling_passes = 1
-present_cas_additional_sharpness = 0.2
-xenos_sample_positions = false
-use_fuzzy_alpha_epsilon = false
-depth_bias_shader_offset = false
-force_depth_clamp = false
+anisotropic_override = 5
+#present_fsr_quality_mode = "auto"
+#present_fsr_max_upsampling_passes = 1
+#present_cas_additional_sharpness = 0.2
 
 texture_cache_memory_limit_soft = 1024
 texture_cache_memory_limit_hard = 4096
 clear_memory_page_state = true
-readback_memexport = false
-readback_memexport_fast = true
-host_present_from_non_ui_thread = true
+readback_memexport = true
+readback_memexport_fast = false 
+readback_resolve = "full"
+host_present_from_non_ui_thread	= true
+gpu_allow_invalid_fetch_constants = true
+depth_bias_shader_offset = true
+use_dedicated_xma_thread = false
 
 window_width = 1920
 window_height = 1080
@@ -42,71 +42,35 @@ fullscreen = true
 monitor = 0
 resolution = "1920x1080"
 
-# "" (auto) / rtv / rov
-# D3D12 render targets: rtv fast, rov accurate
 render_target_path_d3d12 = "rtv"
-
-# true / false
-# Cache shaders on disk, fewer stutters
 store_shaders = true
-
-# true / false
-# Black bars for non-native aspect ratio
 present_letterbox = true
 
-# -1 any physical GPU / -2 WARP / 0.. index
-# Which DXGI adapter to use
 d3d12_adapter = -1
-
-# true / false
-# Allow VRR and tearing on D3D12
 d3d12_allow_variable_refresh_rate_and_tearing = true
-
-# true / false
-# Bindless resources, faster on modern GPUs
 d3d12_bindless = true
 d3d12_break_on_error = false
-
-# true / false
-# Debug: break on D3D12 warnings
 d3d12_break_on_warning = false
+d3d12_debug = false
+d3d12_dxbc_disasm = false
+d3d12_dxbc_disasm_dxilconv = false
+d3d12_pipeline_creation_threads = -1
 d3d12_queue_priority = 2
-
-# true / false
-# Submit work at PM4 buffer end
 d3d12_submit_on_primary_buffer_end = true
-
-# true / false
-# Debug: draw tessellation as wireframe
 d3d12_tessellation_wireframe = false
 
 render_target_path_vulkan = "fbo"
 vulkan_log_debug_messages = false
-
-# Present mode priority: immediate > mailbox > fifo_relaxed > fifo
-# true / false
-# No vsync, lowest latency, tearing
 vulkan_allow_present_mode_immediate = false
-
-# true / false
-# Vsync, tears only when late
 vulkan_allow_present_mode_fifo_relaxed = false
-
-# true / false
-# No tearing, newest frame wins
 vulkan_allow_present_mode_mailbox = true
-
-# true / false
-# Skip frames while pipelines compile
 vulkan_async_skip_incomplete_frames = false
+vulkan_force_convert_quad_lists_to_triangle_lists = true
 
 headless = false
 
 # trace, debug, info, warn, error, critical
 log_level = "error"
-
-gpu_allow_invalid_fetch_constants = true
-readback_resolve = "fast"
 
 # Perf CSV log path (per-frame metrics). Empty = disabled.
 # Only works when REXGLUE_ENABLE_PERF_COUNTERS is defined (non-Release).
@@ -118,7 +82,7 @@ dev_debug_runtime = false
 
 # Ported xenia-canary game-patches for Fuse (4541096E), all off by default
 # like upstream. See patches.toml / src/game_patches.cpp.
-fuse_skip_intro = false
+fuse_skip_intro = true
 fuse_texture_streaming_fix = true
 fuse_mount_cache = true
 fuse_fps60 = true
@@ -128,6 +92,6 @@ fuse_gpu_wait_mode = 1
 
 # Xbox locale language. Fuse ships only these:
 #  1 = English      3 = German      4 = French      5 = Spanish
-# Any other value falls back to English (see src/language_hook.cpp).
+# Any other value falls back to English.
 # Restart the game after changing it.
 user_language = 1

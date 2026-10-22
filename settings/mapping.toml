@@ -33,10 +33,22 @@ mnk_mode = true
 mnk_mouse = true
 mnk_sensitivity = 2.0
 
+# Native mouse look (src/mouse/mouse_look_hook.cpp): on foot (aiming or not)
+# and on mounted turrets the mouse turns the camera directly - 1:1, without the
+# game's stick dead zone, response curve and turn acceleration. Elsewhere
+# (menus, cutscenes, death camera) the mouse falls back to the emulated right
+# stick above (mnk_sensitivity). Only player 1 (local slot 0) gets the mouse.
+fuse_mouse_look = true
+# Camera turn per mouse count = 0.022 deg x this (same scale as Source games).
+fuse_mouse_sensitivity = 2.0
+fuse_mouse_invert_x = false
+fuse_mouse_invert_y = false
+
 # ─────────────────────────────────────────────────────────────
 # Keyboard bindings (default values)
 # ─────────────────────────────────────────────────────────────
 # Format: comma-separated list of keys, optional modifiers (Shift+, Ctrl+, Alt+)
+# Mouse buttons: LMB, RMB, MMB
 
 # Controller buttons
 keybind_a = "Semicolon,Space"          # A button
@@ -45,8 +57,8 @@ keybind_x = "L"                        # X button
 keybind_y = "P"                        # Y button
 
 # Triggers (analog)
-keybind_left_trigger = "Q,I"           # Left trigger
-keybind_right_trigger = "E,O"          # Right trigger
+keybind_left_trigger = "Q,I,RMB"       # Left trigger (aim)
+keybind_right_trigger = "E,O,LMB"      # Right trigger (fire)
 
 # Shoulder buttons
 keybind_left_shoulder = "1"            # Left shoulder (LB)

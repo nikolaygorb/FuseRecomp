@@ -33,6 +33,8 @@ set(FUSERECOMP_SOURCES
     src/fuse_hooks.cpp
     src/gpu_wait_hook.cpp
     src/language_hook.cpp
+    src/mouse/mouse_look.cpp
+    src/mouse/mouse_look_hook.cpp
 )
 
 if(WIN32)

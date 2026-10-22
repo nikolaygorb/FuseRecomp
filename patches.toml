@@ -16,3 +16,66 @@ address = 0x824D1028          # lfs f0,27480(r7) -> lfs f0,27448(r7)
 name = "FuseFps60Hook"
 registers = ["r7", "f0", "fpscr"]
 jump_address_on_true = 0x824D102C
+
+# ─────────────────────────────────────────────────────────────
+# Native mouse look (src/mouse/mouse_look_hook.cpp) in the Camera2 movers.
+# Owner hooks: the right stick read succeeded (r31 = mover, second register =
+# the hero's input component); no-owner hooks: it bailed out. Turn hooks: the
+# angle integration (r3 = mover, f1 = dt).
+# ─────────────────────────────────────────────────────────────
+
+# FollowCameraMover (sub_82455380 reads the stick, sub_82454F08 integrates)
+[[midasm_hook]]
+address = 0x824553FC
+name = "FuseMouseCameraOwner"
+registers = ["r31", "r30"]
+
+[[midasm_hook]]
+address = 0x82455560
+name = "FuseMouseCameraNoOwner"
+registers = []
+
+[[midasm_hook]]
+address = 0x82454F08
+name = "FuseMouseFollowTurn"
+registers = ["r3", "f1"]
+
+# While the hero moves a follow modifier moves the camera instead and
+# sub_82454F08 is skipped: its angles (r1+148/+156) are copied into the mover
+# from here on (r31 = mover, f31 = dt).
+[[midasm_hook]]
+address = 0x8245664C
+name = "FuseMouseFollowModifierTurn"
+registers = ["r31", "r1", "f31"]
+
+# LookCameraMover, aiming (sub_82458010 reads the stick, sub_82458208 integrates)
+[[midasm_hook]]
+address = 0x8245808C
+name = "FuseMouseCameraOwner"
+registers = ["r31", "r26"]
+
+[[midasm_hook]]
+address = 0x824581EC
+name = "FuseMouseCameraNoOwner"
+registers = []
+
+[[midasm_hook]]
+address = 0x82458208
+name = "FuseMouseLookTurn"
+registers = ["r3", "f1"]
+
+# TurretCameraMover (sub_8245D408 reads the stick, sub_8245CC98 integrates)
+[[midasm_hook]]
+address = 0x8245D484
+name = "FuseMouseCameraOwner"
+registers = ["r31", "r30"]
+
+[[midasm_hook]]
+address = 0x8245D5AC
+name = "FuseMouseCameraNoOwner"
+registers = []
+
+[[midasm_hook]]
+address = 0x8245CC98
+name = "FuseMouseTurretTurn"
+registers = ["r3", "f1"]
