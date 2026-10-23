@@ -39,7 +39,11 @@ Logs go to `out/build/<preset>/logs/`.
 
 ## Configuration
 
-`settings/hardware.toml` (rendering, performance, game patches, language) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md).
+`settings/hardware.toml` (rendering, performance, game patches, language, split-screen players) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md).
+
+### Split-screen
+
+Up to four local players can be signed in (`max_local_users`, set to `4` in the checked-in `hardware.toml`). By default one player uses keyboard and mouse and the second uses a gamepad (`keyboard_own_player = true`); for two gamepads set it to `false`. Players keep their own in-game options, saves are shared. The game itself decides how split-screen looks and when it accepts a second player. Details and device assignment: [`settings/split-screen.md`](settings/split-screen.md).
 
 ## Credits
 

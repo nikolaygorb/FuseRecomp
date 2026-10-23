@@ -66,6 +66,10 @@ vulkan_allow_present_mode_fifo_relaxed = false
 vulkan_allow_present_mode_mailbox = true
 vulkan_async_skip_incomplete_frames = false
 vulkan_force_convert_quad_lists_to_triangle_lists = true
+vulkan_hoist_shared_memory_uploads = true
+vulkan_max_frames_in_flight = 2
+vulkan_allow_present_mode_fifo_latest_ready = true
+vulkan_resolve_into_textures = true
 
 headless = false
 
@@ -82,7 +86,7 @@ dev_debug_runtime = false
 
 # Ported xenia-canary game-patches for Fuse (4541096E), all off by default
 # like upstream. See patches.toml / src/game_patches.cpp.
-fuse_skip_intro = true
+fuse_skip_intro = false
 fuse_texture_streaming_fix = true
 fuse_mount_cache = true
 fuse_fps60 = true
@@ -95,3 +99,7 @@ fuse_gpu_wait_mode = 1
 # Any other value falls back to English.
 # Restart the game after changing it.
 user_language = 1
+
+# Split-screen: local players and their controllers (see split-screen.md).
+max_local_users = 4
+#keyboard_own_player = true

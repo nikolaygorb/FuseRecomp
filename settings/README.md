@@ -4,7 +4,7 @@ Two checked-in config files loaded automatically at startup:
 
 | File | Covers |
 |---|---|
-| [`hardware.toml`](hardware.toml) | Renderer, window, vsync, resolution, debug, gameplay patches |
+| [`hardware.toml`](hardware.toml) | Renderer, window, vsync, resolution, debug, gameplay patches, split-screen players |
 | [`mapping.toml`](mapping.toml) | Input backend, keyboard bindings |
 
 Flat `key = value` only — no `[Table]` headers (the loader reads root-level keys only).
@@ -106,6 +106,19 @@ Precedence: `--flag=value` > `REX_FLAG=value` > `settings/*.toml` > compiled def
 | `fuse_fps60` | `true` | `false` | Ported "60 FPS" patch; physics stays at 30 FPS |
 | `fuse_gpu_wait_mode` | `1` | `1` | Render thread wait for the GPU: `0` busy spin (original), `1` yield, `2` sleep 200 µs |
 | `user_language` | `1` | `1` | Game language: `1` English, `3` German, `4` French, `5` Spanish. SDK cvar; the game's static `XGetLanguage` reads it through `XCONFIG_USER_LANGUAGE`, and [`src/language_hook.cpp`](../src/language_hook.cpp) forces any language not on the disc back to English. Restart after changing it |
+
+### Split-screen (local players)
+
+The runtime can sign in up to four local players, as a console does when a second person picks up a controller. The game decides how split-screen looks and when it accepts a second player (menu or "press START to join" screen); the runtime only tells it who is signed in and which controller belongs to whom. Full guide, device assignment and examples: [`split-screen.md`](split-screen.md).
+
+| Key | In file | Default | Effect |
+|---|---|---|---|
+| `max_local_users` | `2` | `1` | Local players that can be signed in (`1`–`4`). Player 2+ signs in while a controller is assigned to them and signs out when it goes away. `1` = single player |
+| `keyboard_own_player` | `true` | `false` | Keyboard and mouse are player 1 on their own, gamepads start at player 2 (pad 1 = player 2). With `false`, keyboard + pad 1 are player 1 and pad 2 is player 2. Ignored once `input_player1` / `input_player2` is set |
+| `input_player1` / `input_player2` | not set | `auto` | Explicit devices for players 1 and 2: comma-separated `keyboard`, `pad1`–`pad4`, `pads`, `none`, `auto` (e.g. `input_player1 = "pad1"`, `input_player2 = "keyboard"`). Players 3–4 exist in automatic mode only |
+| `user_gamertag_2` | not set | `""` | Name shown for player 2 (max 15 bytes); empty gives `User(2)` |
+
+With the checked-in values, two people can play on one machine: one on keyboard and mouse, the other on a gamepad (player 2 signs in as soon as the gamepad is connected). For two gamepads, set `keyboard_own_player = false`. Each player keeps their own in-game options (`profile/User2/` …), but saves are shared under player 1. [`fuse_mouse_look`](#mappingtoml) applies to player 1 only.
 
 ## `mapping.toml`
 
