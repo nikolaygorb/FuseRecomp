@@ -39,11 +39,13 @@ Logs go to `out/build/<preset>/logs/`.
 
 ## Configuration
 
-`settings/hardware.toml` (rendering, performance, game patches, language, split-screen players) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md).
+`settings/hardware.toml` (rendering, performance, game patches, language, split-screen players) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md); every SDK graphics option is described in [`settings/faq.md`](settings/faq.md).
+
+Graphics backends: Direct3D 12 (Windows default), Vulkan (Windows, Linux) and an experimental Direct3D 11 (Windows, `graphics_backend = "d3d11"` only).
 
 ### Split-screen
 
-Up to four local players can be signed in (`max_local_users`, set to `4` in the checked-in `hardware.toml`). By default one player uses keyboard and mouse and the second uses a gamepad (`keyboard_own_player = true`); for two gamepads set it to `false`. Players keep their own in-game options, saves are shared. The game itself decides how split-screen looks and when it accepts a second player. Details and device assignment: [`settings/split-screen.md`](settings/split-screen.md).
+Up to four local players can be signed in (`max_local_users`, set to `4` in the checked-in `hardware.toml`). By default keyboard + mouse and the first gamepad are player 1 and every further gamepad is the next player (`keyboard_own_player = false`); for one player on keyboard and mouse and the other on a gamepad, set it to `true` (the line is commented in `hardware.toml`). Players keep their own in-game options, saves are shared. The game itself decides how split-screen looks and when it accepts a second player. Details and device assignment: [`settings/split-screen.md`](settings/split-screen.md).
 
 ## Credits
 

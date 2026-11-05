@@ -17,6 +17,11 @@ name = "FuseFps60Hook"
 registers = ["r7", "f0", "fpscr"]
 jump_address_on_true = 0x824D102C
 
+[[midasm_hook]]
+address = 0x826A7C30
+name = "FuseFps60GameplayHook"
+registers = ["r5", "r11"]
+
 # ─────────────────────────────────────────────────────────────
 # Native mouse look (src/mouse/mouse_look_hook.cpp) in the Camera2 movers.
 # Owner hooks: the right stick read succeeded (r31 = mover, second register =

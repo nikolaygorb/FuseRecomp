@@ -6,7 +6,7 @@
 #
 # Gamepad button layouts (DualShock 4 / DualSense / Xbox / Switch Pro, etc.)
 # are auto-mapped to the Xbox 360 layout by SDL - there is nothing to
-# configure for that here. These three cvars only select/tune the backend.
+# configure for that here. The first three cvars only select/tune the backend.
 #
 # Flat key = value only
 
@@ -53,12 +53,12 @@ fuse_mouse_invert_y = false
 # Controller buttons
 keybind_a = "Semicolon,Space"          # A button
 keybind_b = "Quote,Backspace"          # B button
-keybind_x = "L"                        # X button
-keybind_y = "P"                        # Y button
+keybind_x = "Q"                        # X button
+keybind_y = "E"                        # Y button
 
 # Triggers (analog)
-keybind_left_trigger = "Q,I,RMB"       # Left trigger (aim)
-keybind_right_trigger = "E,O,LMB"      # Right trigger (fire)
+keybind_left_trigger = "I,RMB"       # Left trigger (aim)
+keybind_right_trigger = "O,LMB"      # Right trigger (fire)
 
 # Shoulder buttons
 keybind_left_shoulder = "1"            # Left shoulder (LB)
