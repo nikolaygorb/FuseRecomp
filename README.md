@@ -32,16 +32,20 @@ Requires CMake 3.25+, Ninja and Clang/LLVM (clang-cl works too). The SDK is buil
 git clone --recurse-submodules <repo-url>
 cmake --preset win-amd64-relwithdebinfo        # or linux-amd64-relwithdebinfo
 cmake --build out/build/win-amd64-relwithdebinfo
-out/build/win-amd64-relwithdebinfo/fuserecomp.exe
+out/build/win-amd64-relwithdebinfo/fuserecomp_launcher.exe   # or fuserecomp.exe directly
 ```
 
 Logs go to `out/build/<preset>/logs/`.
+
+### Launcher
+
+`fuserecomp_launcher` is built next to the game (SDK launcher, page from [`launcher/launcher.toml`](launcher/launcher.toml)): pick the main settings, press Play. It edits `settings/hardware.toml` and `settings/mapping.toml` in place, so starting `fuserecomp` directly uses the same settings. Fuse's own page: 60 FPS, skip intro, texture streaming fix, package cache, mouse look and GPU wait. If the game crashes, it reopens with **Safe mode** (emulated renderer on Vulkan, scale 1, no upscaler or AA, settings files untouched). Format: [`launcher.md`](thirdparty/rexglue-sdk/docs/launcher.md).
 
 ## Configuration
 
 `settings/hardware.toml` (rendering, performance, game patches, language, split-screen players) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md); every SDK graphics option is described in [`settings/faq.md`](settings/faq.md).
 
-Graphics backends: Direct3D 12 (Windows default), Vulkan (Windows, Linux) and an experimental Direct3D 11 (Windows, `graphics_backend = "d3d11"` only).
+Renderers (`gpu_plugin`): **native** (`rexgpu-native`, checked-in default) draws the game's commands directly with Vulkan, without emulating the EDRAM: faster on the GPU, early (fractional scales with `native_resolution_scale`). **xenos** (`rexgpu-xenos`) is the Xbox 360 GPU emulation, the most compatible path, with the backends Direct3D 12 (Windows default), Vulkan (Windows, Linux) and an experimental Direct3D 11 (Windows, `graphics_backend = "d3d11"` only). Both plugins are staged next to the exe.
 
 ### Split-screen
 

@@ -53,7 +53,9 @@ endif()
 
 # GPU_PLUGINS xenos required for xenos rendering; without it rexgpu-xenosd.dll
 # isn't staged next to the exe and the runtime fails to find the GPU plugin.
-rexglue_setup_target(fuserecomp GPU_PLUGINS xenos)
+rexglue_setup_target(fuserecomp GPU_PLUGINS xenos native)
+
+rexglue_add_launcher(fuserecomp ICON_RC src/fuserecomp.rc)
 
 # SDL looks for this file (name set by settings/mapping.toml's
 # hid_mappings_file) next to the exe at startup to fill in gamepads it

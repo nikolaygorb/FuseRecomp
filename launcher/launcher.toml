@@ -1,0 +1,129 @@
+# Fuse: the launcher's page for this title (format: thirdparty/rexglue-sdk/docs/launcher.md).
+# The common rows (display, renderer, upscaling, controls, language, log) come from the SDK's
+# launcher/common.toml; rows here with the same key replace them.
+
+[game]
+name = "Fuse"
+required_files = ["assets/default.xex"]
+
+[theme]
+bg = "#0E141B"
+bg2 = "#080B10"
+side = "#0B1016"
+panel = "#17212C"
+panel_hot = "#1F2C3A"
+border = "#283849"
+text = "#E6EDF3"
+dim = "#98A8B8"
+accent = "#F2A516"
+accent_hi = "#F7BD48"
+accent_text = "#1A1102"
+accent2 = "#3FB4E6"
+warn = "#F2A516"
+ok = "#5BD39A"
+display_font = "fonts/Agdasima-Bold.ttf"
+tagline = "Recompiled"
+
+# Strict and flat, sharp-cornered letters (Agency FB look; Agdasima is the free font).
+[[theme.wordmark]]
+text = "FUSE"
+size = 58
+tracking = 0.06
+color = "#E8EBEF"
+
+#------------------------------------------------------------------------------
+# Game
+#------------------------------------------------------------------------------
+
+[[row]]
+page = "Game"
+key = "fuse_fps60"
+kind = "toggle"
+label = "60 fps"
+default = true
+restart = true
+help = "Runs the game at 60 frames per second instead of the original 30."
+
+[[row]]
+page = "Game"
+key = "fuse_skip_intro"
+kind = "toggle"
+label = "Skip intro"
+default = true
+help = "Skips the logo videos at start."
+
+[[row]]
+page = "Game"
+key = "fuse_texture_streaming_fix"
+kind = "toggle"
+label = "Texture streaming fix"
+default = true
+help = "Keeps detailed textures from dropping back to blurry ones."
+
+[[row]]
+page = "Game"
+key = "fuse_mount_cache"
+kind = "toggle"
+label = "Package cache"
+default = true
+help = "Keeps the game's mounted packages between starts: faster loading."
+
+#------------------------------------------------------------------------------
+# Controls
+#------------------------------------------------------------------------------
+
+[[row]]
+page = "Controls"
+key = "fuse_mouse_look"
+file = "mapping"
+kind = "toggle"
+label = "Mouse look"
+default = true
+help = "Raw mouse movement turns the camera, 1:1, without stick dead zones or acceleration."
+
+[[row]]
+page = "Controls"
+key = "fuse_mouse_sensitivity"
+file = "mapping"
+kind = "slider"
+label = "Mouse sensitivity"
+min = 0.2
+max = 6.0
+step = 0.1
+decimals = 1
+default = 2.0
+enable_if = { key = "fuse_mouse_look", value = true }
+help = "Camera turn per mouse count: 0.022° × this value, as in Source games."
+
+[[row]]
+page = "Controls"
+key = "fuse_mouse_invert_y"
+file = "mapping"
+kind = "toggle"
+label = "Invert mouse Y"
+default = false
+enable_if = { key = "fuse_mouse_look", value = true }
+help = "Moving the mouse up looks down."
+
+[[row]]
+page = "Controls"
+key = "fuse_mouse_invert_x"
+file = "mapping"
+kind = "toggle"
+label = "Invert mouse X"
+default = false
+enable_if = { key = "fuse_mouse_look", value = true }
+help = "Moving the mouse right looks left."
+
+#------------------------------------------------------------------------------
+# Advanced
+#------------------------------------------------------------------------------
+
+[[row]]
+page = "Advanced"
+key = "fuse_gpu_wait_mode"
+kind = "choice"
+label = "GPU wait"
+choices = [[0, "Spin"], [1, "Yield"], [2, "Sleep"]]
+default = 1
+help = "How the game thread waits for the GPU. Spin is the original (a full CPU core), Yield gives the core away, Sleep naps 200 µs."
