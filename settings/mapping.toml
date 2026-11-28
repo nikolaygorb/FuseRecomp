@@ -89,3 +89,6 @@ keybind_back = "Z,Tab"                 # Back button
 keybind_start = "X,Return"             # Start button
 keybind_guide = ""                     # Guide button (empty = disabled)
 
+# Mod hotkeys
+bind_fov_settings = "F6"               # Toggle field of view slider (fuse_fov_scale)
+

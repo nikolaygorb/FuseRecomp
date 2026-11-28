@@ -11,14 +11,17 @@
 #include <rex/filesystem/devices/host_path_device.h>
 #include <rex/filesystem/vfs.h>
 #include <rex/logging.h>
+#include <rex/ppc/intrinsics.h>
 #include <rex/rex_app.h>
 #include <rex/runtime.h>
 #include <rex/system/gpu_plugin.h>
 
 #include "debug_tools.h"
+#include "fov/fov.h"
 #include "game_cvars.h"
 #include "game_patches.h"
 #include "mouse/mouse_look.h"
+#include "render/engine/engine.h"
 #include "utils.h"
 
 #ifdef REXGLUE_ENABLE_PERF_COUNTERS
@@ -49,12 +52,15 @@ public:
                     backend);
       }
     }
+    fuse::engine::ConfigureRenderer();
   }
 
   // void OnLoadXexImage(std::string& xex_image) override {}
   void OnPostLoadXexImage() override
   {
     game_patches::ApplyEnabledPatches();
+    // Scene producer for the native renderer's upscalers and frame generation.
+    fuse::engine::Initialize();
   }
 
   void OnPostSetup() override
@@ -62,6 +68,9 @@ public:
     utils::LoadSettingsFiles();
 
     MountUtilityCache();
+    rex::ppc::vec_estimate_host.store(REXCVAR_GET(fuse_vec_estimate_host));
+    rex::cvar::RegisterChangeCallback("fuse_vec_estimate_host", [](std::string_view, std::string_view value)
+                                      { rex::ppc::vec_estimate_host.store(value == "true" || value == "1"); });
 
 #ifdef REXGLUE_ENABLE_PERF_COUNTERS
     // SDK exposes the perf_log_csv cvar but never wires it up; do it here so
@@ -114,14 +123,30 @@ public:
     // Window exists from this point on. Native mouse look (fuse_mouse_look)
     // only takes the mouse over while the camera hooks in
     // src/mouse/mouse_look_hook.cpp run; see src/mouse/mouse_look.h.
-    fuse::mouse::MouseLook::Get().Attach(window(), drawer);
+    fuse::fov::Init(drawer);
+    fuse::mouse::MouseLook::Get().Attach(window(), drawer, [this]
+                                         { return HasInteractiveOverlay(); });
+  }
+
+  bool HasAppOverlay() const override
+  {
+    return fuse::fov::IsOpen();
   }
 
   void OnShutdown() override
   {
+    fuse::engine::Shutdown();
+    fuse::fov::Shutdown();
 #ifdef REXGLUE_ENABLE_PERF_COUNTERS
     rex::perf::FlushCsv();
 #endif
+  }
+
+  void OnPreTerminateTitle() override
+  {
+    // ReXApp hard-exits after terminating the title; OnShutdown is not reached
+    // on that path. Persist diagnostics before guest memory is torn down.
+    fuse::engine::Shutdown();
   }
 
   void OnConfigurePaths(rex::PathConfig &paths) override

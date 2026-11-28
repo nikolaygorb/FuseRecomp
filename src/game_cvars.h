@@ -12,3 +12,5 @@ REXCVAR_DECLARE(bool, fuse_texture_streaming_fix);
 REXCVAR_DECLARE(bool, fuse_fps60);
 REXCVAR_DECLARE(int32_t, fuse_gpu_wait_mode);
 REXCVAR_DECLARE(bool, fuse_mount_cache);
+REXCVAR_DECLARE(bool, fuse_vec_estimate_host);
+REXCVAR_DECLARE(double, fuse_fov_scale);

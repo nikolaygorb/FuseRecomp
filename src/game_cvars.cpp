@@ -27,3 +27,14 @@ REXCVAR_DEFINE_INT32(fuse_gpu_wait_mode, 1, "Performance",
                      "0 = busy spin (original), 1 = yield the core, 2 = sleep 200us")
     .range(0, 2)
     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+
+REXCVAR_DEFINE_BOOL(fuse_vec_estimate_host, false, "Performance",
+                    "vrefp / vrsqrtefp as the host's exact 1/x and 1/sqrt(x) instead of the console's "
+                    "estimates: not bit-exact (titles comparing estimates may diverge).")
+    .lifecycle(rex::cvar::Lifecycle::kHotReload);
+
+REXCVAR_DEFINE_DOUBLE(fuse_fov_scale, 1.0, "Gameplay",
+                      "Field of view: the camera's view height times this (1 = original). Sprint and "
+                      "aim zoom keep their ratios.")
+    .range(0.75, 2.2)
+    .lifecycle(rex::cvar::Lifecycle::kHotReload);

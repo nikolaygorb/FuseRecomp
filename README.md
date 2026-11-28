@@ -39,13 +39,21 @@ Logs go to `out/build/<preset>/logs/`.
 
 ### Launcher
 
-`fuserecomp_launcher` is built next to the game (SDK launcher, page from [`launcher/launcher.toml`](launcher/launcher.toml)): pick the main settings, press Play. It edits `settings/hardware.toml` and `settings/mapping.toml` in place, so starting `fuserecomp` directly uses the same settings. Fuse's own page: 60 FPS, skip intro, texture streaming fix, package cache, mouse look and GPU wait. If the game crashes, it reopens with **Safe mode** (emulated renderer on Vulkan, scale 1, no upscaler or AA, settings files untouched). Format: [`launcher.md`](thirdparty/rexglue-sdk/docs/launcher.md).
+`fuserecomp_launcher` is built next to the game (SDK launcher, page from [`launcher/launcher.toml`](launcher/launcher.toml)): pick the main settings, press Play. It edits `settings/hardware.toml` and `settings/mapping.toml` in place, so starting `fuserecomp` directly uses the same settings. Fuse's own page: 60 FPS, skip intro, texture streaming fix, package cache, field of view, mouse look and GPU wait. If the game crashes, it reopens with **Safe mode** (emulated renderer on Vulkan, scale 1, no upscaler or AA, settings files untouched). Format: [`launcher.md`](thirdparty/rexglue-sdk/docs/launcher.md).
 
 ## Configuration
 
 `settings/hardware.toml` (rendering, performance, game patches, language, split-screen players) and `settings/mapping.toml` (input) load automatically; CLI flags and `REX_*` environment variables override them. See [`settings/README.md`](settings/README.md); every SDK graphics option is described in [`settings/faq.md`](settings/faq.md).
 
 Renderers (`gpu_plugin`): **native** (`rexgpu-native`, checked-in default) draws the game's commands directly with Vulkan, without emulating the EDRAM: faster on the GPU, early (fractional scales with `native_resolution_scale`). **xenos** (`rexgpu-xenos`) is the Xbox 360 GPU emulation, the most compatible path, with the backends Direct3D 12 (Windows default), Vulkan (Windows, Linux) and an experimental Direct3D 11 (Windows, `graphics_backend = "d3d11"` only). Both plugins are staged next to the exe.
+
+### Upscalers and frame generation
+
+In the native renderer on Windows (Vulkan): AMD FSR 3.1/4, Intel XeSS and NVIDIA DLSS (`native_temporal_upscaler` = `fsr3` / `fsr4` / `xess` / `dlss`), and AMD FSR and NVIDIA DLSS frame generation (`native_frame_generation` = `fsr3` / `fsr4` / `dlss`). The 3D scene is processed with its depth, motion (camera and moving objects) and jitter, while the HUD stays at full resolution. Without `native_scene_upscale` the upscaler works as anti-aliasing at `native_resolution_scale`; with it the scene is drawn at 1x and upscaled. Also in the launcher (Graphics) and F4.
+
+### Field of view
+
+`fuse_fov_scale` widens the gameplay camera: its view times 0.75-2.2 (1 = original 68° horizontal; aim and sprint keep their ratios). Changes apply live; in game **F6** opens a slider, keep the value with Save to config in F4.
 
 ### Split-screen
 

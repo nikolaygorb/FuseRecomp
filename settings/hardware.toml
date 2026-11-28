@@ -26,8 +26,12 @@ present_fsr_quality_mode = "auto"
 present_fsr_max_upsampling_passes = 1
 present_cas_additional_sharpness = 0.2
 
-# native render option
-#native_resolution_scale = 2.25
+native_resolution_scale = 2
+native_defer_full_resolve_loads = true
+native_temporal_upscaler = "off"
+native_scene_upscale = false
+native_fsr_sharpness = 0.5
+native_frame_generation = "off"
 
 readback_memexport = true
 readback_memexport_fast = false 
@@ -80,12 +84,13 @@ d3d11_debug = false
 headless = false
 
 # trace, debug, info, warn, error, critical
-log_level = "error"
+log_level = "info"
 
 # Perf CSV log path (per-frame metrics). Empty = disabled.
 # Only works when REXGLUE_ENABLE_PERF_COUNTERS is defined (non-Release).
 #perf_log_csv = "benchmark.csv"
 #frame_stats_interval = 5
+#thread_sampler_delay = 30
 
 # Enable runtime debug tools (stub sweep, missing function scan).
 # Produces logs/missed_functions.txt and logs/stub_sweep.txt.
@@ -103,6 +108,14 @@ fuse_fps60 = true
 
 # 0 = busy spin (original), 1 = yield the core, 2 = sleep 200us
 fuse_gpu_wait_mode = 1
+
+# Experimental fps boost option 
+# may broke gameplay progression, not fully tested
+fuse_vec_estimate_host = false
+
+# Field of view: the camera's view height times this (1 = original); range 0.75-2.2.
+# Live in game: F6.
+fuse_fov_scale = 1.0
 
 # Xbox locale language. Fuse ships only these:
 #  1 = English      3 = German      4 = French      5 = Spanish

@@ -35,8 +35,13 @@ set(FUSERECOMP_SOURCES
     src/gpu_wait_hook.cpp
     src/native_memory_hook.cpp
     src/language_hook.cpp
+    src/fov/fov_hook.cpp
+    src/fov/fov_settings.cpp
     src/mouse/mouse_look.cpp
     src/mouse/mouse_look_hook.cpp
+    src/render/engine/engine.cpp
+    src/render/engine/scene_probe.cpp
+    src/render/engine/render_hooks.cpp
 )
 
 if(WIN32)
@@ -54,6 +59,16 @@ endif()
 # GPU_PLUGINS xenos required for xenos rendering; without it rexgpu-xenosd.dll
 # isn't staged next to the exe and the runtime fails to find the GPU plugin.
 rexglue_setup_target(fuserecomp GPU_PLUGINS xenos native)
+
+# The runtime and plugins next to the exe also when only they were rebuilt
+# (the native plugin carries the scene consumer, upscalers and frame generation).
+add_custom_target(fuse_stage_runtime
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:rexruntime> $<TARGET_FILE:rexgpu-native> $<TARGET_FILE:rexgpu-xenos>
+            $<TARGET_FILE_DIR:fuserecomp>
+    DEPENDS rexruntime rexgpu-native rexgpu-xenos
+    VERBATIM)
+add_dependencies(fuserecomp fuse_stage_runtime)
 
 rexglue_add_launcher(fuserecomp ICON_RC src/fuserecomp.rc)
 

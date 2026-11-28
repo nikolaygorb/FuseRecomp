@@ -74,7 +74,8 @@ namespace fuse::mouse
     }
   }
 
-  void MouseLook::Attach(rex::ui::Window *window, rex::ui::ImGuiDrawer *imgui)
+  void MouseLook::Attach(rex::ui::Window *window, rex::ui::ImGuiDrawer *imgui,
+                         std::function<bool()> overlay_open)
   {
     if (!window)
     {
@@ -89,6 +90,7 @@ namespace fuse::mouse
       window_ = window;
       ui_ = &window->app_context();
       imgui_ = imgui;
+      overlay_open_ = std::move(overlay_open);
       // Assumed focused until told otherwise, like the mnk driver does: the
       // window may not report its state yet and a focus event may never come.
       has_focus_ = true;
@@ -154,7 +156,7 @@ namespace fuse::mouse
 
   bool MouseLook::OverlayWantsMouse() const
   {
-    return imgui_ && imgui_->GetIO().WantCaptureMouse;
+    return (overlay_open_ && overlay_open_()) || (imgui_ && imgui_->GetIO().WantCaptureMouse);
   }
 
   MouseLook::UiTask MouseLook::BeginEngageLocked()
